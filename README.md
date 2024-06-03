@@ -1,6 +1,5 @@
-# League-Of-Legends-Data-Set
 
-
+# Introduction
 
 
 # NMAR Analysis
