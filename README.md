@@ -8,7 +8,7 @@ This project is part of DSC 80 where the objective is to predict the outcome of 
 
 The primary question we aim to answer is: **Can we predict the result of a League of Legends game using early game statistics such as first blood and creep score at 15 minutes?**
 
-## Dataset Description
+## Dataset Description 
 
 The dataset used for this analysis contains statistics from the 2020 League of Legends Tournament. The dataset includes various features that capture in-game events and team performance metrics. Here are some key columns:
 
@@ -29,31 +29,102 @@ The dataset used for this analysis contains statistics from the 2020 League of L
 
 The dataset consists of 19,430 rows and 15 columns, each representing various in-game statistics and outcomes.
 
-## Significance of the Study
 
 Understanding whether early game statistics can predict the outcome of a match is crucial for players, coaches, and analysts. It can help in developing strategies, improving gameplay, and making informed decisions during live matches. This predictive analysis can also enhance the viewing experience for fans by providing insights into the potential outcome based on early game events.
 
-## Analysis Steps
-
-1. **Data Cleaning and Exploratory Data Analysis (EDA)**: Clean the dataset and perform initial exploratory analysis to understand the distribution and relationships between variables.
-2. **Assessment of Missingness**: Evaluate the mechanisms of missing data and determine whether any columns have missing values that are Not Missing At Random (NMAR).
-3. **Hypothesis Testing**: Conduct hypothesis tests to explore relationships between variables.
-4. **Prediction Problem Framing**: Define the prediction problem, choose the response variable, and determine the evaluation metric.
-5. **Baseline Model**: Train a baseline predictive model using early game statistics.
-6. **Final Model**: Improve upon the baseline model by engineering new features and tuning hyperparameters.
-7. **Fairness Analysis**: Assess whether the model performs equitably across different groups.
-
-The analysis will involve various statistical techniques and machine learning algorithms to achieve the objective. The final deliverable includes a public-facing website that presents the findings in an accessible and engaging manner.
 
 
+# Data Cleaning and Exploratory Data Analysis
 
-# Introduction
-Project for DSC 80 where I try predicting the result of League of Legends games using statistics from the 2020 League of Legends Tournament dataframe. 
+## Data Cleaning
 
-Now the question is, can we predict the result of a League of Legends game using early game statistics such as first blood and cs at 15 minutes?
+The data cleaning process involved handling missing values, converting categorical values to boolean, and ensuring correct data types. The cleaned dataset is called `n_of_df_cleaned`.
 
-## General Introduction
-League of Legends is a game where each team has 5 people and there are 2 teams going against each other. Each player has a role in the game and there are several statistics. Statistics include how much gold each player has, how much cs a player has
+### Data Cleaning Steps
+
+1. **Handling Missing Values**: I first queried the dataframe and made sure that the datacompleteness was complete. Then I checked for null values by calling the dataframe and checking for nulls and the sum. I found that there were 14 rows with missing values in columns that were supposed to be complete. These rows were dropped to ensure the dataset's completeness. The `firstbaron` column, although containing many missing values, was not used in the analysis.
+2. **Converting Categorical Values to Boolean**: Columns representing binary events (e.g., `firstblood`, `firsttower`) were converted from 0 and 1 to `True` and `False` for better readability and to ensure correct data types.
+3. **Ensuring Correct Data Types**: Columns were converted to appropriate data types to ensure accurate computations and analyses.
+
+These steps were essential to ensure that the dataset was clean and reliable for analysis. Cleaning the data helped in obtaining accurate insights and building robust predictive models.
+
+### Head of the Cleaned DataFrame
+
+Below is the head of the cleaned DataFrame:
+
+<iframe
+  src="assets/cleaned_data_head.html"
+  width="100%"
+  height="400"
+  frameborder="0"
+></iframe>
+
+## Exploratory Data Analysis
+
+EDA involves visualizing the data to uncover patterns and relationships between variables. Below are some key insights from our EDA.
+
+### Distribution of Gold at 15 Minutes
+
+The distribution of gold at 15 minutes provides insight into the economic state of teams early in the game.
+
+<iframe
+  src="assets/gold_distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+### Creep Score at 15 Minutes
+
+Analyzing the creep score at 15 minutes helps in understanding the team's control over resources.
+
+<iframe
+  src="assets/cs_at_15_minutes.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+### Gold at 10 Minutes
+
+The distribution of gold at 10 minutes provides an early indication of economic advantage.
+
+<iframe
+  src="assets/gold_10_minutes.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+### Win and Loss Based on First Herald
+
+Understanding how securing the first Rift Herald impacts the game's outcome.
+
+<iframe
+  src="assets/win_and_loss_first_herald.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+### Win and Loss Based on First Tower
+
+Analyzing the impact of destroying the first tower on the game's outcome.
+
+<iframe
+  src="assets/win_and_loss_first_tower.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+
+
+
+
+
+
 
 
 # NMAR Analysis
