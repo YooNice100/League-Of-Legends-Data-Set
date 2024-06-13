@@ -221,10 +221,95 @@ The p-value is greater than
 
 # Hypothesis Testing
 
+- **Null Hypothesis**: Getting first tower does not affect probability of winning the game
+- **Alternate Hypothesis**: Getting the first tower does affect the probability of winning the game.
+
+Test Statistic: Mean difference in the proportion of wins between teams that secured firsttower and teams that did not secure firsttower. Significance level is 0.05.
+
+Observed difference in propotion is: `0.366281044591408`
+P-Value: 0
+
+With the hypothesis test performed, with a p-value of 0, we reject the null hypothesis. This suggests that getting the first tower does affect the probability of winning the game but we can not say this is absolute. 
+
+
 # Framing a Prediction Problem
+The prediction problem is :
+Are we able to predict if a team will win or lose the game based on early game statistics?
+
+I will perform this using binary classification. 
+
+I will need to one hot encode the boolean columns. I am planning to one hot encode firstblood. Then I'm thinking about using a StandardScaler() on the numeric columns. 
+
+I will use early game statistics such as firstblood, firsttower, firstdragon, firstherald, firstbaron, goldat15, csat15, xpat15.
+
+These features are available during the early game and can provide insights into a team’s likelihood of winning. By using only early game statistics, I can only make a prediction based of the statistics in the beginning of the game. This could be applied to real life scenarios because sometimes we will watch the first 15 minutes of the game and then go and have to eat dinner and this model can help predict whether a team will win or not.
+
+I'm going to split the data into training and test sets. Then, standardize the numeric features and apply one-hot encoding to the categorical features. I'll train a regression model and use F1-score and accuracy to evaluate if the model has improved. Next, I'll train the model using the best hyperparameters I can find. Finally, I'll assess the model's fairness by comparing its performance across different subsets of the data.
+
 
 # Baseline Model
 
+For the baseline model, I used the LogisticRegression linear model with the following three features: 'csat15', 'firstblood' and 'result'
+
+
+The 'csat15' column is a quantitative column and I'm going to standardize it using StandardScaler
+
+The 'firstblood' column is nominal and I'm going to encode with OneHotEncoder
+
+Here are the performance results of my model:
+Accuracy: `0.6310504634397528`
+F1 Score: `0.6339719029374202`
+
+I would say the accuracy score is better than random guessing with 50% and the F1 score is better than 50% but there is room for improvement such as improving the hyperparameters. 
+
+
 # Final Model
 
+
+For the final model, I added the following features: csdiffat15, golddiffat15, xpdiffat15
+
+These are all quantitative features and represent the difference in statistics compared to the opposing team. If these values are positive, it indicates that the team is performing better in terms of creep score, gold, and experience points at 15 minutes compared to the opponent. Conversely, negative values indicate that the opponent is performing better. These differences are crucial for predicting the game outcome as they provide a comparative measure of team performance. I believe that when a team has more statistics positive compared to the other team, they are at an upper hand and it can help predict the result of the game.
+
+I used the StandardScaler transformer on the newly added columns and then still the one hot encoder for the firstblood column.
+
+## Model and Hyperparameters
+Modeling Algorithm: Random Forest Classifier
+
+I chose Random Forest Classifier because it handles numerical and categorical data well. I thought it would perform well with both types of features.
+
+These are the best hyperparameters I found using grid search:
+n_estimators: 300
+max_depth: 10
+min_samples_split: 2
+min_samples_leaf: 1
+
+
+I used GridSearchCV to select the best hyperparameters. This method explores a range of parameter values to find the best combination for a better accuracy and F1 score. 
+
+The accuracy score is now `0.759783728115345` and the final F1 score is now `0.7599691278621045`. This is over 10% compared to the baseline model. I believe this model's accuracy and F1 score is much better than before but it is not that close to 1 meaning that the precision and recall could be viewed as weak. 
+
+
 # Fairness Analysis
+
+I am testing the fairness of my model by testing it on different groups. I am trying to see if my model performs worse for teams LCK league compared to those in the LEC league. I will answer this question by performing a permutation test and examining the difference in accuracy between the two groups. 
+
+Group X: Teams in the LCK league.
+Group Y: Teams in the LEC league.
+
+Testing using Accuracy
+
+Significance Level: 0.05.
+
+Hypotheses: 
+`Null Hypothesis` (H0): Our model is fair. Its accuracy for LCK teams is the same as the accuracy for LEC teams.
+`Alternative Hypothesis` (H1): Our model is unfair. Its accuracy for LCK teams is NOT the same as the accuracy for LEC teams.
+
+Test Statistic: Difference in accuracy between teams in the LCK and LEC leagues.
+
+Results
+Observed Accuracy for LCK: 0.8424
+Observed Accuracy for LEC: 0.7833
+Observed Difference: 0.0590
+P-value: 0.006
+
+After performing the permutation test, we obtained a p-value of 0.006, which is less than the 0.05 significance level. Consequently, we reject the null hypothesis. This result implies that our model's accuracy significantly differs between the two groups. Hence, our model appears to be unfair, exhibiting a bias towards one group over the other.
