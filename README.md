@@ -42,7 +42,7 @@ The data cleaning process involved handling missing values, converting categoric
 
 ### Data Cleaning Steps
 
-1. **Handling Missing Values**: I first queried the dataframe and made sure that the datacompleteness was complete. Then I checked for null values by calling the dataframe and checking for nulls and the sum. I found that there were 14 rows with missing values in columns that were supposed to be complete. These rows were dropped to ensure the dataset's completeness. The `firstbaron` column, although containing many missing values, was not used in the analysis.
+1. **Handling Missing Values**: I first queried the dataframe and made sure that the datacompleteness column was complete. Then I checked for null values by calling the dataframe and checking for nulls and the sum. I found that there were 14 rows with missing values in columns that were supposed to be complete. These rows were dropped to ensure the dataset's completeness. The `firstbaron` column, although containing many missing values, was not used in the analysis.
 2. **Converting Categorical Values to Boolean**: Columns representing binary events (e.g., `firstblood`, `firsttower`) were converted from 0 and 1 to `True` and `False` for better readability and to ensure correct data types.
 3. **Ensuring Correct Data Types**: Columns were converted to appropriate data types to ensure accurate computations and analyses.
 
@@ -59,13 +59,11 @@ Below is the head of the cleaned DataFrame:
   frameborder="0"
 ></iframe>
 
-## Exploratory Data Analysis
-
-EDA involves visualizing the data to uncover patterns and relationships between variables. Below are some key insights from our EDA.
+## Univariate Analysis
 
 ### Distribution of Gold at 15 Minutes
 
-The distribution of gold at 15 minutes provides insight into the economic state of teams early in the game.
+Performed Univariate Analysis on the gold at 15 minutes. This distribution of gold at 15 minutes provides insight into the economic state of teams early in the game.
 
 <iframe
   src="assets/gold_distribution.html"
@@ -76,7 +74,7 @@ The distribution of gold at 15 minutes provides insight into the economic state 
 
 ### Creep Score at 15 Minutes
 
-Analyzing the creep score at 15 minutes helps in understanding the team's control over resources.
+Performed Univariate Analysis on the creep score at 15 minutes.This helps us understand the team's control over minions and other resources at 15 minutes into the game. 
 
 <iframe
   src="assets/cs_at_15_minutes.html"
@@ -87,7 +85,7 @@ Analyzing the creep score at 15 minutes helps in understanding the team's contro
 
 ### Gold at 10 Minutes
 
-The distribution of gold at 10 minutes provides an early indication of economic advantage.
+Another Univariate Analysis of the gold at 10 minutes. Looks similar to the gold at 15 minutes. 
 
 <iframe
   src="assets/gold_10_minutes.html"
@@ -98,7 +96,8 @@ The distribution of gold at 10 minutes provides an early indication of economic 
 
 ### Win and Loss Based on First Herald
 
-Understanding how securing the first Rift Herald impacts the game's outcome.
+Performed bivariate analysis on the first herald and result statistics in the dataset. I can visualize the wins and losses with teams that got first herald. 
+
 
 <iframe
   src="assets/win_and_loss_first_herald.html"
@@ -109,7 +108,8 @@ Understanding how securing the first Rift Herald impacts the game's outcome.
 
 ### Win and Loss Based on First Tower
 
-Analyzing the impact of destroying the first tower on the game's outcome.
+Performed bivariate analysis on the first tower and result statistics in the dataset. I can visualize the wins and losses with teams that got first tower. 
+
 
 <iframe
   src="assets/win_and_loss_first_tower.html"
@@ -118,16 +118,79 @@ Analyzing the impact of destroying the first tower on the game's outcome.
   frameborder="0"
 ></iframe>
 
+## Aggregate
+
+These are the aggregated sums of early game statistics from the columns: 'result', 'firstherald', 'firstbaron', 'firsttower', 'firstblood', 'goldat15', 'csat15', 'position'. This is grouped by result which is win or lose. 
+
+<iframe
+  src="assets/count_agg.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+These are the aggregated proportions of early game statistics from the columns: 'result', 'firstherald', 'firstbaron', 'firsttower', 'firstblood', 'goldat15', 'csat15', 'position'. This is grouped by result which is win or lose. 
+
+<iframe
+  src="assets/aggregated_proportions.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 
 
+# Assessment of Missingness
 
-
-
-
-
-
-# NMAR Analysis
-State whether you believe there is a column in your dataset that is NMAR. Explain your reasoning and any additional data you might want to obtain that could explain the missingness (thereby making it MAR). Make sure to explicitly use the term “NMAR.”
+## NMAR Analysis
 
 I believe the column firstbaron in my data set could be not missing at random (NMAR) because when I set the datacompleteness column to complete and check for all the null values, there are 320 rows where firstbaron is null. The firstbaron column does not rely on any other columns as it is own objective, it just relies on the column itself. I was also thinking that this column could possibly be NMAR because what if these games ended without firstbaron so that means that those games geniuenly don't have firstbaron. If I knew more information about of the data was collected then I might be able to make it MAR. For example, if there was complications in collecting data for the firstbaron and that is why those values are missing. Even if the datacompleteness column was queried to complete, there may have been issues in collecting this data. If I new this information then I would be able to determine it as MAR. There are 320/19430 rows that are missing the firstbaron data.  
+
+## Missingness Dependency
+
+Here I am going to test if the missingness of firstbaron depends on the league column. I am going to use the test statistic Total Variance Distance. The significance level for both permutation tests will be 0.5.
+
+
+- **Null Hypothesis**: The distributions are the same for `league` whether `firstbaron` is missing or not.
+- **Alternate Hypothesis**: The distributions are different for `league` when `firstbaron` is missing versus when it is not missing.
+
+Here is the data of observed distribution of when league and firstbaron is missing and not missing.
+
+
+<iframe
+  src="assets/baron_dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Here is a bar plot showing the distribution of baron missing vs not missing amongst the Leagues
+
+<iframe
+  src="assets/missingness_of_first_baron.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Here is the empricial distribution of the TVD produced testing 
+
+<iframe
+  src="assets/empirical_dist_of_tvd.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+
+# Hypothesis Testing
+
+# Framing a Prediction Problem
+
+# Baseline Model
+
+# Final Model
+
+# Fairness Analysis
