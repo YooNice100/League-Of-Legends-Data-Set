@@ -272,7 +272,7 @@ These are all quantitative features and represent the difference in statistics c
 
 I used the StandardScaler transformer on the newly added columns and then still the one hot encoder for the firstblood column.
 
-## Model and Hyperparameters
+### Model and Hyperparameters
 Modeling Algorithm: Random Forest Classifier
 
 I chose Random Forest Classifier because it handles numerical and categorical data well. I thought it would perform well with both types of features.
