@@ -149,7 +149,7 @@ I believe the column firstbaron in my data set could be not missing at random (N
 
 ## Missingness Dependency
 
-Here I am going to test if the missingness of firstbaron depends on the league column. I am going to use the test statistic Total Variance Distance. The significance level for both permutation tests will be 0.5.
+Here I am going to test if the missingness of firstbaron depends on the league column. I am going to use the test statistic Total Variance Distance. The significance level for both permutation tests will be 0.05.
 
 
 - **Null Hypothesis**: The distributions are the same for `league` whether `firstbaron` is missing or not.
@@ -165,6 +165,7 @@ Here is the data of observed distribution of when league and firstbaron is missi
   frameborder="0"
 ></iframe>
 
+
 Here is a bar plot showing the distribution of baron missing vs not missing amongst the Leagues
 
 <iframe
@@ -174,7 +175,9 @@ Here is a bar plot showing the distribution of baron missing vs not missing amon
   frameborder="0"
 ></iframe>
 
-Here is the empricial distribution of the TVD produced testing 
+After performing permutation tests, `0.41618015012510423` is the observed test statistic and the p-value is 0. 
+
+Here is the empricial distribution of the TVD for the test.
 
 <iframe
   src="assets/empirical_dist_of_tvd.html"
@@ -182,6 +185,37 @@ Here is the empricial distribution of the TVD produced testing
   height="600"
   frameborder="0"
 ></iframe>
+
+The p-value is less than 0.05 significance level. We can reject the null hypothesis. This means that the missingness of firstbaron depends on the league column.
+
+The next permutation test is seeing if the firstbaron column depends on the result column. The observed tvd is `0.6667014178482068`. We are testing with a 0.05 significance. 
+
+- **Null Hypothesis**: The distributions are the same for `result` whether `firstbaron` is missing or not.
+- **Alternate Hypothesis**: The distributions are different for `result` when `firstbaron` is missing versus when it is not missing.
+
+
+Here is the distribution of result when baron is missing and when it is not missing. The result values are seperated based on the missingness of firstbaron and the distributions are plotted. The reason why the distributions look the same is because they do not depend on each other. Firstbaron does not depend on the result column. When result is true and result is false, I believe there is same amount of missingness in the firstbaron because that means that the pairs of teams are missing. So say one team has missing data for their firstbaron, their opponent team also has missing data for their firstbaron but one of those teams lose and one of them wins. Therefore the distribution of them look almost the same because for the same amount of missing data for teams that won, there is same amount of missing data for the teams that lost. 
+
+<iframe
+  src="assets/dist_of_baron_thing.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+<iframe
+  src="assets/empirical_tvd_dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+
+Since the p-value is greater than 0.05 significance, we fail to reject the null hypothesis. This indicates that the missingness of firstbaron does not depend on the result column. 
+
+The p-value is greater than
 
 
 
